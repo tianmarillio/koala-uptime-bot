@@ -1,0 +1,48 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+model Account {
+  // PK and FKs
+  id String @id @default(cuid()) @map("id")
+
+  // Cores
+  username String  @unique @map("username")
+  password String  @map("password")
+  isActive Boolean @default(true) @map("is_active")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  muonitors Monitor[]
+
+  @@map("account")
+}
+
+model Monitor {
+  // PK and FKs
+  id        String @id @default(cuid()) @map("id")
+  accountId String @map("account_id")
+
+  // Cores
+  title       String  @map("title")
+  description String  @map("description")
+  url         String  @map("url")
+  isActive    Boolean @default(true) @map("is_active")
+
+  // Timestamps
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  account Account @relation(fields: [accountId], references: [id])
+
+  @@index([accountId])
+  @@map("monitor")
+}
