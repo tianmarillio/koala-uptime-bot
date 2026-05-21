@@ -3,8 +3,6 @@ import { CreateMonitorDto } from './dtos/create-monitor.dto';
 import { UpdateMonitorDto } from './dtos/update-monitor.dto';
 import { MonitorResponse } from './dtos/monitor-response.dto';
 import { DatabaseService } from 'src/database/database.service';
-import { plainToInstance } from 'class-transformer';
-import { serializeResponse } from 'src/utils/serialize-response';
 import { generateNanoid } from 'src/utils/nanoid';
 
 @Injectable()
@@ -32,7 +30,7 @@ export class MonitorService {
     monitorId: string,
     accountId: string,
   ): Promise<MonitorResponse | null> {
-    const monitor = await this.prisma.monitor.findFirst({
+    return await this.prisma.monitor.findFirst({
       where: {
         id: monitorId,
         accountId,
@@ -45,10 +43,6 @@ export class MonitorService {
         description: true,
       },
     });
-
-    if (!monitor) return null;
-
-    return serializeResponse(MonitorResponse, monitor);
   }
 
   async findMonitorByIdOrThrow(
