@@ -10,7 +10,7 @@ generator client {
 
 model Account {
   // PK and FKs
-  id String @id @default(cuid()) @map("id")
+  id String @id @map("id")
 
   // Cores
   username String  @unique @map("username")
@@ -28,7 +28,7 @@ model Account {
 
 model Monitor {
   // PK and FKs
-  id        String @id @default(cuid()) @map("id")
+  id        String @id @map("id")
   accountId String @map("account_id")
 
   // Cores

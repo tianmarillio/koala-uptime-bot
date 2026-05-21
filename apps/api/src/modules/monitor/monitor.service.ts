@@ -5,6 +5,7 @@ import { MonitorResponse } from './dtos/monitor-response.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { plainToInstance } from 'class-transformer';
 import { serializeResponse } from 'src/utils/serialize-response';
+import { generateNanoid } from 'src/utils/nanoid';
 
 @Injectable()
 export class MonitorService {
@@ -69,6 +70,7 @@ export class MonitorService {
   ): Promise<{ id: string }> {
     const createdMonitor = await this.prisma.monitor.create({
       data: {
+        id: generateNanoid(),
         accountId,
         ...payload,
       },
