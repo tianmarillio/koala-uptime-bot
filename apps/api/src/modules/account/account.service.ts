@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import { AccountResponseDto as AccountResponseDto } from './dtos/account-response.dto';
+import { AccountDto as AccountDto } from './dtos/account.dto';
 
 @Injectable()
 export class AccountService {
@@ -8,7 +8,7 @@ export class AccountService {
 
   async findAccountById(
     id: string,
-  ): Promise<AccountResponseDto | null> {
+  ): Promise<AccountDto | null> {
     const account = this.prisma.account.findFirst({
       where: {
         id,
@@ -27,7 +27,7 @@ export class AccountService {
 
   async findAccountByUsername(
     username: string,
-  ): Promise<AccountResponseDto | null> {
+  ): Promise<AccountDto | null> {
     const account = this.prisma.account.findFirst({
       where: {
         username,
