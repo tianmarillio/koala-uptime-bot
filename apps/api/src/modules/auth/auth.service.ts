@@ -1,9 +1,10 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AccountService } from 'src/domains/account/account.service';
-import { SigninDto } from './dtos/signin.dto';
+import { AccountService } from 'src/modules/account/account.service';
+import { SignInDto } from './dtos/sign-in.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAccountInput } from 'src/shared/interfaces/jwt-account.interface';
 import bcrypt from 'bcryptjs';
+import { SignUpDto } from './dtos/sign-up.dto';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signin(signinDto: SigninDto): Promise<{ accessToken: string }> {
+  async signIn(signinDto: SignInDto): Promise<{ accessToken: string }> {
     const normalizedUsername = signinDto.username.toLowerCase();
 
     const account =
@@ -42,4 +43,6 @@ export class AuthService {
       accessToken,
     };
   }
+
+  async signUp(signupDto: SignUpDto): Promise<void> {}
 }

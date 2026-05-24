@@ -8,7 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { MonitorService } from './monitor.service';
-import { MonitorResponse } from './dtos/monitor-response.dto';
+import { MonitorDto } from './dtos/monitor.dto';
 import { UpdateMonitorDto } from './dtos/update-monitor.dto';
 import { CreateMonitorDto } from './dtos/create-monitor.dto';
 
@@ -22,12 +22,12 @@ export class MonitorController {
   constructor(private readonly monitorService: MonitorService) {}
 
   @Get()
-  async getMonitors(): Promise<MonitorResponse[]> {
+  async getMonitors(): Promise<MonitorDto[]> {
     return await this.monitorService.listMonitors(TEMP_PLACEHOLDER_ACCOUNT_ID);
   }
 
   @Get(':id')
-  async getMonitorById(@Param('id') id: string): Promise<MonitorResponse> {
+  async getMonitorById(@Param('id') id: string): Promise<MonitorDto> {
     return await this.monitorService.findMonitorByIdOrThrow(
       id,
       TEMP_PLACEHOLDER_ACCOUNT_ID,
