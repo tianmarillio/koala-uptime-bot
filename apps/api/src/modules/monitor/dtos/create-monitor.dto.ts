@@ -11,6 +11,7 @@ export class CreateMonitorDto {
   @IsNotEmpty()
   @IsUrl()
   @MaxLength(2048)
+  // TODO: validate https secure URL only
   url: string;
 
   @IsString()

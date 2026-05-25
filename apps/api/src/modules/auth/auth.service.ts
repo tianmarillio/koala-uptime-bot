@@ -6,7 +6,7 @@ import {
 import { AccountService } from 'src/modules/account/account.service';
 import { SignInDto } from './dtos/sign-in.dto';
 import { JwtService } from '@nestjs/jwt';
-import { JwtAccountInput } from 'src/shared/interfaces/jwt-account.interface';
+import { JwtAccountInput } from 'src/modules/auth/interfaces/jwt-account.interface';
 import bcrypt from 'bcryptjs';
 import { SignUpDto } from './dtos/sign-up.dto';
 import { AccountSignUpUseCase } from 'src/application/identity/account-sign-up.use-case';
@@ -21,12 +21,12 @@ export class AuthService {
 
   async signIn(signinDto: SignInDto): Promise<{ accessToken: string }> {
     const normalizedUsername = signinDto.username.toLowerCase();
-
+    
     const account =
       await this.accountService.findAccountByUsername(normalizedUsername);
 
     if (!account) {
-      throw new UnauthorizedException('Unauthorized');
+      throw new UnauthorizedException('Unauthorized access');
     }
 
     const isMatched = await bcrypt.compare(
@@ -35,7 +35,7 @@ export class AuthService {
     );
 
     if (!isMatched) {
-      throw new UnauthorizedException('Unauthorized');
+      throw new UnauthorizedException('Unauthorized access');
     }
 
     const payload: JwtAccountInput = {
